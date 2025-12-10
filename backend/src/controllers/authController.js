@@ -37,7 +37,7 @@ export const signUp = async (req, res) => {
     // return
     return res.sendStatus(204);
   } catch (error) {
-    console.error("Happened error when signing up", error);
+    console.error("Error appears when signing up", error);
     return res.status(500).json({ message: "Error system" });
   }
 };
@@ -99,7 +99,7 @@ export const signIn = async (req, res) => {
       accessToken,
     });
   } catch (error) {
-    console.error("Happened error when signing in", error);
+    console.error("Error appears when signing in", error);
     return res.status(500).json({ message: "Error system" });
   }
 };
@@ -119,7 +119,7 @@ export const signOut = async (req, res) => {
 
     return res.sendStatus(204);
   } catch (error) {
-    console.error("Happened error when signing out", error);
+    console.error("Error appears when signing out", error);
     return res.status(500).json({ message: "Error system" });
   }
 };
