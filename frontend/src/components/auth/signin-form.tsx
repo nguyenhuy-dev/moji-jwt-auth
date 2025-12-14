@@ -6,6 +6,8 @@ import { Label } from "@radix-ui/react-label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/stores/useAuthStore";
+import { useNavigate } from "react-router";
 
 const signInSchema = z.object({
   username: z.string().min(3, "Tên đăng nhập phải có ít nhất 3 ký tự"),
@@ -18,13 +20,23 @@ export function SigninForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const { signIn } = useAuthStore();
+
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<SignInFormValues>({ resolver: zodResolver(signInSchema) });
 
-  const onSubmit = async (data: SignInFormValues) => {};
+  const onSubmit = async (data: SignInFormValues) => {
+    const { username, password } = data;
+
+    await signIn(username, password);
+
+    navigate("/");
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
