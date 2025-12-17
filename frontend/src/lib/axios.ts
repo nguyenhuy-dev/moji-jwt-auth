@@ -28,7 +28,8 @@ api.interceptors.response.use(
     if (
       originalRequest.url.includes("/auth/signin") ||
       originalRequest.url.includes("/auth/signup") ||
-      originalRequest.url.includes("/auth/refresh")
+      originalRequest.url.includes("/auth/refresh") ||
+      originalRequest.url.includes("/auth/refresh-when-unauthorized")
     )
       return Promise.reject(error);
 
@@ -37,10 +38,12 @@ api.interceptors.response.use(
     if (error.response?.status === 403 && originalRequest._retryCount < 4) {
       originalRequest._retryCount++;
 
-      console.log("refresh", originalRequest._retryCount);
-
       try {
-        const res = await api.post("/auth/refresh", { withCredentials: true });
+        //const res = await api.post("/auth/refresh", { withCredentials: true });
+
+        const res = await api.post("/auth/refresh-when-unauthorized", {
+          withCredentials: true,
+        });
 
         const newAccessToken = res.data.accessToken;
 
